@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="ja">
+<html>
     <head>
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -20,7 +20,52 @@
       <div class="container">
         <div class="row">
           <div class="col-md-8 mx-auto">
-            <h2>My profile</h2>
+            <h2>プロフィール</h2>
+            <form class="" action="{{ action('Admin\ProfileController@update') }}"
+            method="post" enctype="multipart/form-data">
+
+            @if (count($errors) > 0)
+            <ul>
+              @foreach ($errors->all() as $e)
+              <li>{{ $e }}</li>
+              @endforeach
+            </ul>
+            @endif
+            <div class="from-group row">
+              <label  class="col-md-2" for="name">氏名</label>
+              <div class="col-md-10">
+                <input type="text" name="name" class="form-control"
+                value="{{ old('name') }}">
+              </div>
+            </div>
+            <div class="from-group row">
+              <label class="col-md-2" for="gender">性別</label>
+              <div class="col-md-10">
+                <input type="checkbox" name="gender" class="from-control"
+                value="man">男性
+                <input type="checkbox" name="gender" class="from-control"
+                value="woman">女性
+              </div>
+            </div>
+            <div class="from-group row">
+              <label class="col-md-2" for="hobby">趣味</label>
+              <div class="col-md-10">
+                <textarea name="hobby" class="from-control" cols="50" rows="10">
+                  {{ old('hobby') }}
+                </textarea>
+              </div>
+            </div>
+            <div class="from-group row">
+              <label class="col-md-2" for="introduction">自己紹介</label>
+              <div class="col-md-10">
+                <textarea name="introduction" calss="from-control" cols="50" rows="20">
+                  {{ old('introduction') }}
+                </textarea>
+              </div>
+            </div>
+            {{ csrf_field() }}
+            <input type="submit" class="btn btn-primary" value="更新">
+            </form>
           </div>
         </div>
       </div>

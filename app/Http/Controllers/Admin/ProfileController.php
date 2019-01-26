@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Profile;
 
 class ProfileController extends Controller
 {
@@ -13,8 +14,19 @@ class ProfileController extends Controller
       return view('admin.profile.edit');
     }
 
-    public function update()
+    public function update(Request $request)
     {
+      // Varidationを行う
+      $this->validate($requset, Profile::$rules);
+
+      // class Profileをインスタンス化させる
+      $profile = new Profile;
+      $form = $request->all();
+
+      // データベースに保存する
+      $profile = fill($form);
+      $profile = save();
+
       return redirect('admin/profile/edit');
     }
 }
