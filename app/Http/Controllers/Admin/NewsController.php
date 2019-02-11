@@ -7,6 +7,10 @@ use App\Http\Controllers\Controller;
 
 // 以下を追記することでNews Modelが使えるようになる
 use App\News;
+// 以下を追記することでHistory Modelが使えるようになる
+use App\History;
+// 日付操作ライブラリを使えるようになる
+use Carbon\Carbon;
 
 class NewsController extends Controller
 {
@@ -18,7 +22,6 @@ class NewsController extends Controller
 
     public function create(Request $request)
     {
-      // 以下を追記
       // Varidationを行う
       $this->validate($request, News::$rules);
 
@@ -53,7 +56,7 @@ class NewsController extends Controller
     {
       $cond_title = $request->cond_title;
       if ($cond_title != '') {
-        // 検索されたら検索結果を習得する
+        // 検索されたら検索結果を取得する
         $posts = News::where('title', $cond_title)->get();
       } else {
         // それ以外は全てのニュースを取得する
@@ -75,20 +78,37 @@ class NewsController extends Controller
 
     public function update(Request $request)
   {
+      // Varidationを行う
       $this->validate($request, News::$rules);
+      // News Modelからデータを取得する
       $news = News::find($request->id);
+      // 送信されてきた入力フォームデータを格納する
       $news_form = $request->all();
-      if (isset($news_form['image'])) {
-        $path = $request->file('image')->store('public/image');
-        $news->image_path = basename($path);
+      // imageデータの処理
+      if ($request->remove == 'true'){
+        $news_form['image_path'] = null;
+      }  elseif ($request->file('image')) {
+         $path = $request->file('image')->store('public/image');
+         $news_form['image_path'] = basename($path);
       } else {
-          $news->image_path = null;
+        $news_form['image_path'] = $news->image_path;
       }
       // \Debugbar::info(isset($news_form['image']));
       unset($news_form['_token']);
       unset($news_form['image']);
+      unset($news_form['remove']);
 
       $news->fill($news_form)->save();
+
+      // 編集履歴の追加する
+      $history = new History;
+      // News Modelからデータを取得する
+      $history->news_id = $news->id;
+      // 現在時刻を取得する
+      $history->edited_at = Carbon::now();
+      // データベースに保存する
+      $history->save();
+
       return redirect('/admin/news/');
   }
 

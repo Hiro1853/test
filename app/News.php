@@ -6,8 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class News extends Model
 {
-　   // テーブル名を指定する
-　　 protected $table = 'news';
+    protected $table = 'news';
 
     protected $guarded = array('id');
 
@@ -16,5 +15,11 @@ class News extends Model
       'title' => 'required',
       'body' => 'required',
     );
+
+    // Newsモデルに関連付けを行う
+    public function histories ()
+    {
+      return $this->hasMany('App\History');
+    }
 
 }

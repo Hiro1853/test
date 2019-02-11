@@ -18,4 +18,7 @@ class Profile2 extends Model
       'hobby' => 'required',
       'introduction' => 'required',
     );
+
+    // Profile2 modelに関連付けする
+    
 }

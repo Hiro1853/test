@@ -14,12 +14,12 @@ class CreateProfile2Table extends Migration
     public function up()
     {
         Schema::create('profile2', function (Blueprint $table) {
-            $table->increments('id');
-            $table->string('name');     // 名前を保存するカラム
-            $table->string('gender');　 // 性別を保存するカラム
-            $table->string('hobby');　　// 趣味を保存するカラム
-            $table->string('introduction');　　// 自己紹介を保存するカラム
-            $table->timestamps();
+             $table->increments('id');
+             $table->string('name');
+             $table->string('gender');
+             $table->string('hobby');
+             $table->string('introduction');
+             $table->timestamps();
         });
     }
 

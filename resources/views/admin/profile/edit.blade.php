@@ -55,6 +55,18 @@
                         </div>
                     </div>
                 </form>
+                <div class="row mt-5">
+                  <div class="col-md-4 mx-auto">
+                    <h2>編集履歴</h2>
+                    <ul class="list-group">
+
+                            <li class="list-group-item">
+
+                            </li>
+                          
+                    </ul>
+                  </div>
+                </div>
             </div>
         </div>
     </div>
