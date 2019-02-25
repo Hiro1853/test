@@ -20,6 +20,8 @@ class NewsController extends Controller
       return view('admin.news.create');
     }
 
+
+
     public function create(Request $request)
     {
       // Varidationを行う
@@ -27,6 +29,7 @@ class NewsController extends Controller
 
       // class Newsをインスタンス化させる
       $news = new News;
+      
       // 送信されてきたフォームデータを格納する
       $form = $request->all();
 
@@ -40,21 +43,26 @@ class NewsController extends Controller
 
       // フォームから送信されてきた_tokenを削除する
       unset($form['_token']);
+
       // フォームから送信されてきたimageを削除する
       unset($form['image']);
 
       //データベースに保存する
       $news->fill($form);
+
       $news->save();
 
       // admin/news/createにリダイレクトする
       return redirect('admin/news/create');
     }
 
+
+
     // 以下を追記
     public function index(Request $request)
     {
       $cond_title = $request->cond_title;
+
       if ($cond_title != '') {
         // 検索されたら検索結果を取得する
         $posts = News::where('title', $cond_title)->get();
@@ -62,9 +70,12 @@ class NewsController extends Controller
         // それ以外は全てのニュースを取得する
         $posts = News::all();
       }
+
       return view('admin.news.index', ['posts'=> $posts, 'cond_title'=>
       $cond_title]);
     }
+
+
 
     // 以下を追加
     public function edit(Request $request)
@@ -76,14 +87,18 @@ class NewsController extends Controller
     }
 
 
+
     public function update(Request $request)
   {
       // Varidationを行う
       $this->validate($request, News::$rules);
+
       // News Modelからデータを取得する
       $news = News::find($request->id);
+
       // 送信されてきた入力フォームデータを格納する
       $news_form = $request->all();
+
       // imageデータの処理
       if ($request->remove == 'true'){
         $news_form['image_path'] = null;
@@ -93,6 +108,7 @@ class NewsController extends Controller
       } else {
         $news_form['image_path'] = $news->image_path;
       }
+
       // \Debugbar::info(isset($news_form['image']));
       unset($news_form['_token']);
       unset($news_form['image']);
@@ -102,22 +118,32 @@ class NewsController extends Controller
 
       // 編集履歴の追加する
       $history = new History;
+
       // News Modelからデータを取得する
       $history->news_id = $news->id;
+
       // 現在時刻を取得する
       $history->edited_at = Carbon::now();
+
       // データベースに保存する
       $history->save();
 
       return redirect('/admin/news/');
   }
 
+
+
   public function delete(Request $request)
   {
     // 該当するNews Modelを取得
     $news = News::find($request->id);
+
     // 削除する
     $news->delete();
      return redirect('admin/news/');
+
   }
+
+
+
 }

@@ -41,10 +41,10 @@
             <div class="form-group row">
               <label class="col-md-2" for="gender">性別</label>
               <div class="col-md-10">
-                <input type="checkbox" name="gender" class="form-control"
-                value="gender">男性
-                <input type="checkbox" name="gender" class="form-control"
-                value="gender">女性
+                <input type="radio" name="gender" class="form-control"
+                value="男性">男性
+                <input type="radio" name="gender" class="form-control"
+                value="女性">女性
               </div>
             </div>
             <div class="form-group row">
