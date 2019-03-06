@@ -1,4 +1,4 @@
-hhhhhhh  <?php
+<?php
 
 namespace App\Providers;
 
@@ -15,7 +15,7 @@ class AppServiceProvider extends ServiceProvider
     {
         // 以下を追記
         if (\App::environment('production')){
-          \URL::forceShenme('https');
+            \URL::forceShenme('https');
         }
     }
 
