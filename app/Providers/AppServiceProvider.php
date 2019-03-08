@@ -15,6 +15,7 @@ class AppServiceProvider extends ServiceProvider
     {
         // 以下を追記
         if (\App::environment('production')){
+            // Http通信プロトコルを Httpsに設定する
             \URL::forceShenme('https');
         }
     }
